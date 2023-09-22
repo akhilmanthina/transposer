@@ -1,27 +1,11 @@
 from music21 import *
 import os
 
-
 from scanner import scanner
 from generate_pdf import mxl_to_pdf
+from get_keys import get_interval
 
 
-def get_transposition_interval(input_instrument, output_instrument):
-    # Define the transposition intervals in semitones for specific instruments
-    transposition_intervals = {
-        'C': -2,  # Bb instruments are transposed down a whole step (2 semitones)
-        'A Clarinet': -3,  # A instruments are transposed down a minor third (3 semitones)
-        'F Horn': -7,  # F instruments are transposed down a perfect fifth (7 semitones)
-        'F' : 0
-        # Add more instruments as needed
-    }
-
-    input_transposition = transposition_intervals.get(input_instrument, 0)
-    output_transposition = transposition_intervals.get(output_instrument, 0)
-
-    # Calculate the transposition interval between input and output instruments
-    transposition_interval = output_transposition - input_transposition
-    return transposition_interval
 
 
 def transpose_musicxml(file_path, input_instrument, output_instrument):
@@ -29,7 +13,8 @@ def transpose_musicxml(file_path, input_instrument, output_instrument):
     score = converter.parse(file_path)
 
     # Get the transposition interval between the specified input and output instruments
-    transposition_interval = get_transposition_interval(input_instrument, output_instrument)
+    transposition_interval = get_interval(input_instrument, output_instrument)
+    print(f"Transposition interval: {transposition_interval}")
 
     # Transpose the score
     transposed_score = score.transpose(transposition_interval)

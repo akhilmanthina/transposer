@@ -5,3 +5,4 @@ Lilypond/
 *.omr
 *.mxl
 *.ly
+.env
