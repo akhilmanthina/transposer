@@ -50,7 +50,8 @@ if __name__ == '__main__':
     transposed_score = transpose_musicxml(mxl_file_path, input_instrument, output_instrument)
 
     # Save the transposed score to a new MusicXML file
-    transposed_file_path = "./" + file_name + "_transposed.mxl"
+    transposed_file_path = "./temp/" + file_name + "_transposed.mxl"
     print(transposed_file_path)
     transposed_score.write('musicxml', transposed_file_path)
     print(f'Transposed MusicXML file saved to {transposed_file_path}')
+
