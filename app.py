@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     #Convert the transposed MusicXML file to pdf
     print("Converting to pdf...")
-    mxl_to_pdf(transposed_file_path)
+    mxl_to_pdf(transposed_file_path, input_instrument, output_instrument)
     
     #Clean up the temp folder
     print("Cleaning up...")

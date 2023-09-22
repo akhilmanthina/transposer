@@ -4,14 +4,14 @@ import subprocess
 
 
 
-def mxl_to_pdf(mxl_file_path):
+def mxl_to_pdf(mxl_file_path, input_instrument, output_instrument):
     mxl_to_ly_path = os.getcwd() + "/Lilypond/bin/musicxml2ly"
     ly_file = './temp/output.ly'
 
     #Convert the MusicXML file to a Lilypond file
     subprocess.run([mxl_to_ly_path, "-o", ly_file, mxl_file_path])
 
-    modify_ly(ly_file)
+    modify_ly(ly_file, input_instrument, output_instrument)
     ly_to_pdf(ly_file)
 
 
@@ -24,12 +24,18 @@ def ly_to_pdf(ly_file):
     pdf_file = os.path.splitext(ly_file)[0] + '.pdf'
     
     
-def modify_ly(ly_file):
+def modify_ly(ly_file, input_instrument, output_instrument):
     with open(ly_file, 'r') as file:
         content = file.read()
 
+    title = f"Transposed Piece for {output_instrument}, (Originally for {input_instrument})"
+    composer = "Transposed by AkhilM"
+
     #Change the title
-    content = re.sub(r'(title\s*=\s*)"([^"]*)"', r'\1"Transposed Piece"', content)
+    content = re.sub(r'(title\s*=\s*)"([^"]*)"', rf'\1"{title}"', content)
+
+    #Change composer
+    content = re.sub(r'(composer\s*=\s*)"([^"]*)"', rf'\1"{composer}"', content)
 
     #Remove the instrument naming
     content = re.sub(
