@@ -29,12 +29,19 @@ def clear_temp(temp):
         except Exception as e:
             print(f'Failed to delete {file_path}. Reason: {e}')
 
-def run_app(file_path, input_instrument, output_instrument):
+def run_app(file, input_instrument, output_instrument):
     temp = './temp/'
     
+    #Save the pdf to the temp folder
+    file_name = file.name.split(".")[0]
+    file_path = temp + file.name
+
+    with open(file_path, "wb") as f:
+        f.write(file.getvalue())
+
     #Scan the pdf and convert to MusicXML
     scanner(temp, file_path)
-    file_name = file_path.split("/")[-1].split(".")[0]
+    
     mxl_file_path = temp + file_path.split("/")[-1].split(".")[0] + ".mxl"
     print(mxl_file_path)
     #exit()
@@ -53,10 +60,6 @@ def run_app(file_path, input_instrument, output_instrument):
     #Convert the transposed MusicXML file to pdf
     print("Converting to pdf...")
     mxl_to_pdf(transposed_file_path, input_instrument, output_instrument)
-    
-    #Clean up the temp folder
-    print("Cleaning up...")
-    clear_temp(temp)
 
     print("Done!")
 
@@ -70,13 +73,35 @@ if __name__ == '__main__':
 
     #Get the MusicXML file path and instrument names
     with st.form(key='my_form'):
-        file_path = st.text_input(label='Enter the path of the pdf file')
-        input_instrument = st.text_input(label='Enter the input instrument name')
-        output_instrument = st.text_input(label='Enter the output instrument name')
+        uploaded_file = st.file_uploader('Upload PDF sheet music', type="pdf")
+        input_instrument = st.text_input(label='Input instrument')
+        output_instrument = st.text_input(label='Output instrument')
         submitted = st.form_submit_button(label='Submit')
   
     if submitted:
-        run_app(file_path, input_instrument, output_instrument)
+        if input_instrument == "" or output_instrument == "" or uploaded_file == None:
+            st.error('Please fill out all fields before submitting.')
+        else:
+            run_app(uploaded_file, input_instrument, output_instrument)
+            
+            file_location = "./temp/output.pdf"
+            #Make output downloadable
+            if os.path.exists(file_location):
+  
+                with open(file_location, "rb") as file:
+                    st.download_button(
+                        label="Download Transposed PDF",
+                        data=file,
+                        file_name="output.pdf",
+                        mime="application/pdf",
+                    )
+            else:
+                st.error("The file output.pdf does not exist.")
+            
+            #Clean up the temp folder
+            print("Cleaning up...")
+            clear_temp('./temp/')
+        
 
 
 

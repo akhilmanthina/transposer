@@ -4,7 +4,7 @@
 Transposes PDF sheet music given input instrument and output instrument! 
 
 Future functionality:
-- Streamlit UI (drag and drop input pdf)
+- ~~Streamlit UI (drag and drop input pdf)~~
 - Deployed Demo
 - More chat-like UX?
 
@@ -15,7 +15,9 @@ Audiveris folder must be in root and title `Audiveris` and similarly Lilypond fo
 
 Need to create `.env` file and add your Google PaLM API key as `GOOGLE_API_KEY`. Langchain is LLM agnostic, so this can be substituted with any inference model of choice.
 
-Requires the following Python packages, install with pip, conda virtual environment recommended:
+Conda virtual environment recommended, use python 3.8.
+
+Requires the following Python packages, install with pip:
 - `music21`
 - `dotenv`
 - `langchain`
