@@ -11,7 +11,7 @@ def mxl_to_pdf(mxl_file_path, input_instrument, output_instrument):
     #Convert the MusicXML file to a Lilypond file
     subprocess.run([mxl_to_ly_path, "-o", ly_file, mxl_file_path])
 
-    modify_ly(ly_file, input_instrument, output_instrument)
+    #modify_ly(ly_file, input_instrument, output_instrument)
     ly_to_pdf(ly_file)
 
 

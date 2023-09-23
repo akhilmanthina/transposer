@@ -6,3 +6,4 @@ Lilypond/
 *.mxl
 *.ly
 .env
+__pycache__/

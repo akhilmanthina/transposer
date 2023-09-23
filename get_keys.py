@@ -1,4 +1,3 @@
-import google.generativeai as palm
 from dotenv import load_dotenv, find_dotenv
 
 from langchain.llms import GooglePalm
@@ -59,5 +58,5 @@ def key_difference(key_1: str, key_2: str) -> int:
 
 #Run LLM tests here
 if __name__ == '__main__':
-    #print(get_interval("regular flute", "clarinet"))
+    #print(get_interval("alto sax", "clarinet"))
     pass

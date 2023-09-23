@@ -1,4 +1,5 @@
 from music21 import *
+import streamlit as st
 import os
 
 from scanner import scanner
@@ -28,14 +29,9 @@ def clear_temp(temp):
         except Exception as e:
             print(f'Failed to delete {file_path}. Reason: {e}')
 
-
-if __name__ == '__main__':
-    #Get the MusicXML file path and instrument names
+def run_app(file_path, input_instrument, output_instrument):
     temp = './temp/'
-    file_path = input("Enter the path of the pdf file: ").strip()
-    input_instrument = input("Enter the input instrument name: ").strip()
-    output_instrument = input("Enter the output instrument name: ").strip()
-
+    
     #Scan the pdf and convert to MusicXML
     scanner(temp, file_path)
     file_name = file_path.split("/")[-1].split(".")[0]
@@ -63,4 +59,27 @@ if __name__ == '__main__':
     clear_temp(temp)
 
     print("Done!")
+
+if __name__ == '__main__':
+
+    st.title("Transposer")
+    file_path = ""
+    input_instrument = ""
+    output_instrument = ""
+    submitted = False
+
+    #Get the MusicXML file path and instrument names
+    with st.form(key='my_form'):
+        file_path = st.text_input(label='Enter the path of the pdf file')
+        input_instrument = st.text_input(label='Enter the input instrument name')
+        output_instrument = st.text_input(label='Enter the output instrument name')
+        submitted = st.form_submit_button(label='Submit')
+  
+    if submitted:
+        run_app(file_path, input_instrument, output_instrument)
+
+
+
+
+
 

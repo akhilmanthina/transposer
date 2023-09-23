@@ -15,7 +15,8 @@ Audiveris folder must be in root and title `Audiveris` and similarly Lilypond fo
 
 Need to create `.env` file and add your Google PaLM API key as `GOOGLE_API_KEY`. Langchain is LLM agnostic, so this can be substituted with any inference model of choice.
 
-Requires the following Python packages, install with pip:
+Requires the following Python packages, install with pip, conda virtual environment recommended:
 - `music21`
 - `dotenv`
 - `langchain`
+- `google-generativeai`
