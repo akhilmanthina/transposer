@@ -32,34 +32,42 @@ def clear_temp(temp):
 def run_app(file, input_instrument, output_instrument):
     temp = './temp/'
     
-    #Save the pdf to the temp folder
-    file_name = file.name.split(".")[0]
-    file_path = temp + file.name
+    with st.status("Transposing...") as status:
+        #Save the pdf to the temp folder
+        st.write("Uploading PDF...")
 
-    with open(file_path, "wb") as f:
-        f.write(file.getvalue())
+        file_name = file.name.split(".")[0]
+        file_path = temp + file.name
 
-    #Scan the pdf and convert to MusicXML
-    scanner(temp, file_path)
-    
-    mxl_file_path = temp + file_path.split("/")[-1].split(".")[0] + ".mxl"
-    print(mxl_file_path)
-    #exit()
+        with open(file_path, "wb") as f:
+            f.write(file.getvalue())
+
+        #Scan the pdf and convert to MusicXML
+        st.write("Scanning to MusicXML...")
+        scanner(temp, file_path)
+        
+        mxl_file_path = temp + file_path.split("/")[-1].split(".")[0] + ".mxl"
+        print(mxl_file_path)
+        #exit()
 
 
-    #Transpose the MusicXML file
-    print("Transposing...")
-    transposed_score = transpose_musicxml(mxl_file_path, input_instrument, output_instrument)
+        #Transpose the MusicXML file
+        st.write("Transposing MusicXML...")
+        transposed_score = transpose_musicxml(mxl_file_path, input_instrument, output_instrument)
 
-    #Save the transposed score to a new MusicXML file
-    transposed_file_path = temp + file_name + "_transposed.mxl"
-    print(transposed_file_path)
-    print("Writing to mxl...")
-    transposed_score.write('musicxml', transposed_file_path)
+        #Save the transposed score to a new MusicXML file
+        st.write("Saving...")
+        transposed_file_path = temp + file_name + "_transposed.mxl"
+        print(transposed_file_path)
+        print("Writing to mxl...")
+        transposed_score.write('musicxml', transposed_file_path)
 
-    #Convert the transposed MusicXML file to pdf
-    print("Converting to pdf...")
-    mxl_to_pdf(transposed_file_path, input_instrument, output_instrument)
+        #Convert the transposed MusicXML file to pdf
+        print("Converting to pdf...")
+        mxl_to_pdf(transposed_file_path, input_instrument, output_instrument)
+
+        status.update(label="Download complete!", state="complete", expanded=False)
+
 
     print("Done!")
 
